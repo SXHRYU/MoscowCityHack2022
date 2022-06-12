@@ -1,17 +1,26 @@
-import csv
 from dataclasses import dataclass
-from .person_info import *
 
 
 @dataclass
 class Channel:
-    name: str
-    readers_count: int
+    """Объект Телеграм канала.
+    
+    Используется в основном для type hinting.
+    В функциях представлен в виде словаря:
+    {'title': '...'}, {'subscribers': ...}, ...
+    """
+    title: str
+    subscribers: int
     weekly_growth: int
+    ad_price: int
     telemetr_url: str
-    url: str
 
 class Recommendation:
+    """Объект рекомендации.
+
+    Используется в основном для type hinting.
+    Содержит в себе все основные параметры, получаемые из POST-запроса.
+    """
     def __init__(self, 
                  product_name: str,
                  city: str,
@@ -24,18 +33,10 @@ class Recommendation:
         self.gender = gender
         self.leads_number = leads_number
 
-    def tuplise_age_range(self, age_range):
+    def tuplise_age_range(self, age_range) -> tuple[int, int]:
+        """Возвращает нормализованный кортеж запрошенных возрастов.
+        
+        На вход получает строку "('16 лет - 20 лет')", возвращает
+        (16, 20).
+        """
         return tuple(map(int, [i for i in age_range.split(' ') if i.isdigit()]))
-
-
-def get_top_channels(path_to_csv):
-    top_channels = []
-    with open(path_to_csv, newline='', encoding='utf-8') as csvfile:
-        reader = csv.reader(csvfile)
-        for row in reader:
-            top_channels.append(*row)
-    return top_channels[1:]
-
-
-def get_channel_recommendation(*args, **kwargs) -> Channel:
-    if Person in args: ...

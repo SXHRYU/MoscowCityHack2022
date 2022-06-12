@@ -3,6 +3,8 @@
 
 Рекомендации по таргетированию для бизнеса вынесены
 в  отдельную категорию business.
+
+Характеристические группы рекомендаций:
 1) Для  мужчин. Категории каналов: авто, мото, спорт, рыбалка,
 строительство и ремонт, игры,  политика, военное.
 2) Для женщин.  Категории каналов: дизайн, красота  и мода,
@@ -17,7 +19,6 @@
 '''
 
 
-import csv
 import requests
 from bs4 import BeautifulSoup
 from .parser_urls import (
@@ -39,25 +40,19 @@ url_ar = [
     url_young,
     url_adult
     ]
-filename_ar = [
-    'tg_men.csv', 
-    'tg_women.csv',
-    'tg_business.csv', 
-    'tg_kids.csv', 
-    'tg_youth.csv', 
-    'tg_adult.csv'
-    ]
 
 # Определяем параметры для доступа к сайту
 HEADERS = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36', 'accept' : '*/*'}
     
 # Составляем URL запрос
 def get_html(url, params = None):
+    """Возвращает ответ с сайта, с которого производится парсинг."""
     r = requests.get(url, headers = HEADERS, params = params)
     return r
 
 # Получаем необходимые данные
 def get_content(html):
+    """Возвращает контент с сайта, с которого производится парсинг."""
     soup = BeautifulSoup(html, 'html.parser')
 
     channels1 = soup.find_all('tr', class_ = "tr_even")
@@ -87,25 +82,10 @@ def get_content(html):
                 'link': channel.find('a', class_="kt-ch-title").get('href')
             })     
     return channels_ar 
-
-# Функция для сохранения данных в csv таблицу
-def save_file(items, path):
-    with open(path, 'w', newline = '', encoding='utf-8') as file:
-        writer = csv.writer(file, delimiter=';')
-        writer.writerow(['Название канала',
-                         'Число подписчиков',
-                         'Прирост подписчиков за месяц',
-                         'Стоимость одного поста',
-                         'Ссылка на канал'])
-        for item in items:
-            writer.writerow([item['title'],
-                             item['subscribers'],
-                             item['growth'],
-                             item['price'],
-                             item['link']])
     
 # Основная функция 
 def parse(num):
+    """Возвращает список ТГ-каналов для характеристических групп."""
     URL = url_ar[num-1]
     html = get_html(URL)
     channels_ar = []

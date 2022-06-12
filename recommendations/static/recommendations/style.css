@@ -46,6 +46,7 @@ a {
     font-size: 20px;
     font-weight: 600;
     text-transform: uppercase;
+    padding-right: 50px;
 }
 
 #statistics {
@@ -60,10 +61,10 @@ a {
 
 #main-page {
     position: absolute;
-    width: 1920px;
+    width: 1890px;
     height: auto;
     left: 0px;
-    top: 83px;
+    top: 85px;
     background: #F6F7FB;
 }
 
@@ -78,6 +79,7 @@ tr#table-headers {
     font-size: 24px;
     line-height: 33px;
     color: #000000;
+    vertical-align: top;
 }
 
 .table-header#channels {
@@ -149,7 +151,7 @@ tr#table-headers {
 }
 
 #submit {
-    margin-top: 42px;
+    margin-top: 20px;
     background: #1E86F5;
     border-radius: 10px;
     color: white;
@@ -180,6 +182,10 @@ img {
     vertical-align: middle;
 }
 
+#pandas {
+    width: 63px;
+}
+
 th {
     font-style: normal;
     font-weight: 400;
@@ -194,4 +200,10 @@ th {
     font-weight: 400;
     font-size: 16px;
     line-height: 22px;
+}
+
+#channels-table #scrollable {
+    height: 500px;
+    overflow-y: auto;
+    box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);
 }

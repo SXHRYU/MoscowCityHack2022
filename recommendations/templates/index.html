@@ -21,7 +21,9 @@
 <body>
     <navbar id="navbar">
         <ul>
-            <li id="marketing"><a href="/">УРАЛСИБ МАРКЕТИНГ</a></li>
+            <li id="marketing"><a href="/">УРАЛСИБ МАРКЕТИНГ</a>
+                <img src="{% static 'recommendations/pandas_logo.jpg' %}" id="pandas" alt="pandas-logo">
+            </li>
             <li id="channels"><a href="/">ПОДБОР КАНАЛОВ</a></li>
             <li id="statistics"><a href="/">СТАТИСТИКА</a></li>
         </ul>
@@ -54,12 +56,9 @@
                                 местоположение
                                 <br>
                                 <select name="city">
-                                    <!-- ЗАГЛУШКА -->
-                                  <option value="volvo">Volvo</option>
-                                  <option value="saab">Saab</option>
-                                  <option value="fiat">Fiat</option>
-                                  <option value="audi">Audi</option>
-                                    <!-- ЗАГЛУШКА -->
+                                    {% for city in cities_list %}
+                                        <option value="{{ city }}">{{ city }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -69,7 +68,7 @@
                                     <label for="amount">возрастная категория</label>
                                     <input type="text" name="age-range" id="amount" readonly style="border:0; background-color: #FFFFFF; color:#1E86F5; font-weight:bold; font-size: 18px;">
                                 </p>
-                                <div id="slider-range"></div>
+                                <div id="slider-range" style="margin-left: 15px;"></div>
                             </div>
                         </div>
                         <div class="part-wrapper">
@@ -118,7 +117,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div class="part-wrapper">
+                                <div class="part-wrapper" id="scrollable">
                                     <div class="wrapper-contents" style="padding: 24px 114px 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">
                                         каналы / группы
                                         <br>
@@ -130,11 +129,13 @@
                                                 <th>подписчики</th>
                                                 <th>ссылка</th>
                                             </tr>
-                                            <tr>
-                                                <td class="brief">Банкста</td>
-                                                <td class="brief">200 000</td>
-                                                <td class="brief">https://t.me/MoscowCityHack</td>
-                                            </tr>
+                                            {% for channel in recommended_channels %}
+                                                <tr>
+                                                    <td class="brief">{{ channel.title }}</td>
+                                                    <td class="brief">{{ channel.growth }}</td>
+                                                    <td class="brief">{{ channel.link }}</td>
+                                                </tr>
+                                            {% endfor %}
                                         </table>
                                     </div>
                                 </div>
@@ -150,7 +151,6 @@
                             </td>
                         </tr>
                     </table>
-                    <br style="content: ''; margin-top: 300px; display: block;">
                 </td>
             </tr>
         </table>

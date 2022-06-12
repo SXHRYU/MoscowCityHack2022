@@ -3,47 +3,46 @@ from dataclasses import dataclass
 
 @dataclass
 class AgeGroup:
+    """Объект возрастных групп.
+
+    Представлен в виде:
+    AgeGroup(name='Children', age_range=(1, 18))
+    """
     name: str
     age_range: tuple[int, int]
 
-Children = AgeGroup('Children', (1, 18))
+    # Необходимо, чтобы использовать как ключи в словаре.
+    def __hash__(self) -> int:
+        return hash(repr(self))
+
+# Возрастные группы.
+# Предоставляют интерфейс для изменения
+# пар-ов расчёта коэффициентов и выдачи соответствующих ТГ-каналов.
+Children = AgeGroup('Children', (6, 18))
 Young = AgeGroup('Young', (18, 35))
 Adult = AgeGroup('Adult', (35, 65))
 Retired = AgeGroup('Retired', (65, 70))
 age_groups = [Children, Young, Adult, Retired]
 
 class Person:
+    """Объект человека.
+    
+    Представлен в основном для type hinting.
+    Использовался в тестовых целях.
+    """
     def __init__(self,
                  client_id: str,
                  gender: str,
                  birth_date: str,
-                 create_date: str,
                  name: str,
                  age: int,
-                 nonresident_flag: str,
-                 businessman_flag: int,
-                 city: str,
-                 term: str,
-                 contract_sum: int,
-                 product_category_name: str,
-                 card_id: str,
-                 card_type_name: str,
-                 start_date,
-                 fact_close_date,
-                 purchase_sum,
-                 purchase_count,
-                 current_balance_avg_sum,
-                 current_balance_sum,
-                 current_debit_turn_sum,
-                 current_credit_turn_sum,
-                 card_type
                  ):
         self.client_id = client_id
         self.gender = gender
         self.birth_date = birth_date
         self.name = name
         self.age = age
-        # возможно добавлять
+        # возможно добавлять новые параметры
         ...
 
     @property
@@ -54,6 +53,12 @@ class Person:
                 return age_group
 
 class PersonGroup:
+    """Объект запрошенных групп людей.
+
+    Изначально использовался для выдачи рекомендаций, затем был изменён
+    на более прямой объект Recommendation.
+    Использовался в тестовых целях.
+    """
     def __init__(self, age_range, city, gender) -> None:
         self.group_list = []
         self.age_range = age_range
@@ -83,6 +88,8 @@ class PersonGroup:
         return self
 
 def eligible_clients(gender, age, city, product_category_name, age_group=None):
+    """Возвращает клиентов, подходящих под определённые характеристики.
+    """
     import csv
     if age_group is not None:
         age = None
