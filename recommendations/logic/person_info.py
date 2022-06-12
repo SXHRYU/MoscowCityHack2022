@@ -91,11 +91,14 @@ class PersonGroup:
                                        age,
                                        city,
                                        product_category_name,
+                                       #path_to_file,
                                        age_group):
             self.group_list.append(client)
         return self
 
-def eligible_clients(gender, age, city, product_category_name, age_group=None):
+def eligible_clients(gender, age, city, product_category_name,
+                     #path,
+                     age_group=None):
     """Возвращает клиентов, подходящих под определённые характеристики.
     """
     import csv
@@ -103,7 +106,7 @@ def eligible_clients(gender, age, city, product_category_name, age_group=None):
         age = None
     else:
         age_group = None
-    with open('C:/Users/user/Desktop/hackathon/Условие/Данные по транзакционной активности клиентов.csv', newline='', encoding='utf-8') as csvfile:
+    with open(path, newline='', encoding='utf-8') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         for row in reader:
             if (
