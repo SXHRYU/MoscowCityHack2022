@@ -26,7 +26,8 @@ from .logic.tg_recommendation import Channel, Recommendation
 #       для характеристических (не возрастных) групп;
 # 6)отсекаем кол-во популярных каналов
 #       в соответствии с процентными соотношениями из пункта 4;
-# 7)выводим оставшиеся каналы пользователю
+# 7)выводим оставшиеся каналы пользователю;
+# 8)считаем и выводим бюджет согласно принятой модели.
 def index_view(request: HttpRequest):
     """Функция-контроллёр, отправляющая пользователю HTML-страницу.
     
@@ -206,7 +207,9 @@ def cutoff_top_channels(category_percents: dict, top_channels: dict) -> list[Cha
     channels_5 = []
     channels_6 = []
     displayed_channels = []
-
+    # Использование характеристических групп - это временное решение.
+    # Из-за нехватки времени на обучение модели было решено разделить
+    # людей на группы по интересам.
     if top_channels.get('men') is not None:
         channels_1 = top_channels['men'][0][0: round(len(top_channels['men'][0])*category_percents[Adult])]
         displayed_channels.append(channels_1)
@@ -236,7 +239,10 @@ def count_budget(recommendation: Recommendation) -> int:
     leads = recommendation.leads_number
 
     total_budget = 0
-
+    # Использование усреднённых значений - это временное решение.
+    # В конечной версии продукта модель машинного обучения
+    # будет выдавать значения бюджета и дохода
+    # по задаваемым параметрам напрямую.
     for key, value in category_percents.items():
         if key.name == 'Children':
             total_budget += value * Children.income / Children.average_hold
