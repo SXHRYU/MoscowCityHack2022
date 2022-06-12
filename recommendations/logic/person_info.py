@@ -5,11 +5,19 @@ from dataclasses import dataclass
 class AgeGroup:
     """Объект возрастных групп.
 
+    name - имя группы;
+    age_range - возрастной диапазон группы;
+    income - прибыль с одного человека группы;
+    average_hold - средний срок держания карты;
+
     Представлен в виде:
-    AgeGroup(name='Children', age_range=(1, 18))
+    AgeGroup(name='Children', age_range=(6, 18),
+             income=123_456, average_hold=8)
     """
     name: str
     age_range: tuple[int, int]
+    income: float
+    average_hold: int
 
     # Необходимо, чтобы использовать как ключи в словаре.
     def __hash__(self) -> int:
@@ -18,10 +26,10 @@ class AgeGroup:
 # Возрастные группы.
 # Предоставляют интерфейс для изменения
 # пар-ов расчёта коэффициентов и выдачи соответствующих ТГ-каналов.
-Children = AgeGroup('Children', (6, 18))
-Young = AgeGroup('Young', (18, 35))
-Adult = AgeGroup('Adult', (35, 65))
-Retired = AgeGroup('Retired', (65, 70))
+Children = AgeGroup('Children', (6, 18), 390.009756, 8)
+Young = AgeGroup('Young', (18, 35), 1979.661741, 3)
+Adult = AgeGroup('Adult', (35, 65), 4092.573681, 11)
+Retired = AgeGroup('Retired', (65, 70), 3405.256095, 6)
 age_groups = [Children, Young, Adult, Retired]
 
 class Person:

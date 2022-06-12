@@ -52,12 +52,14 @@ def index_view(request: HttpRequest):
         rec.category_percents = get_category_percents(rec.age_range)
         rec.top_channels = get_top_channels(rec)
         rec.final_channels = cutoff_top_channels(rec.category_percents, rec.top_channels)
+        rec.budget = count_budget(rec)
         # Возвращает конечный список каналов для рекламы.
         list_of_recommended_channels = [j for i in range(len(rec.final_channels)) for j in rec.final_channels[i]]
         context = {
             "recommendation": rec,
             "recommended_channels": list_of_recommended_channels,
             "cities_list": cities_list,
+            "recommendation": rec,
         }
     # Отправляем пользователю страницу с рассчитанными значениями.
     return render(request, 'index.html', context)
@@ -97,7 +99,7 @@ def get_gender(data: HttpRequest) -> str:
 
 def get_leads_number(data: HttpRequest) -> int:
     """Возвращает кол-во лидов."""
-    return data.get('number-leads')
+    return int(data.get('number-leads'))
 
 def get_age_categories(age_range: tuple[int, int]) -> list[AgeGroup]:
     """Возвращает возрастные категории,
@@ -119,34 +121,31 @@ def get_ages_in_age_range(age_range: tuple[int, int]) -> list:
     """Возвращает все возрасты, входящие в запрошенный диапазон."""
     return [i for i in range(age_range[0], age_range[1])]
 
-def get_category_percents(age_range: dict[AgeGroup, int]) -> dict:
+def get_category_percents(age_range: tuple[int, int]) -> dict[AgeGroup, int]:
     """Возвращает процентное соотношение запрошенных возрастов,
     входящих в разные группы.
 
-    То есть для диапазона (17, 30) результат будет [~0.05, ~0.95],
-    потому что диапазон (17, 30) на 5% входит в диапазон 
-    AgeGroup('Children', age_range=(6, 18)) и на 95% в
-    AgeGroup('Young', age_range=(18, 30))
+    То есть для диапазона (25, 45) результат будет 
+    {
+        AgeGroup('Young', (18, 35)): 0.5,
+        AgeGroup('Adult', (35, 45)): 0.5,
+    }
+    потому что диапазон (25, 45) на 50% входит в диапазон Young
+    и на 50% в диапазон Adult
     """
     ages_in_age_range = get_ages_in_age_range(age_range)
     touched_categories = get_age_categories(age_range)
     total_ages = len(ages_in_age_range)
 
     category_percents = dict()
-    age = ages_in_age_range[0]
-    category_index = 0
-    
+
     for group in touched_categories:
         age_count = 0
-        while category_index < len(touched_categories):
-            if age <= group.age_range[1]:
-                age_count = group.age_range[1] - age + 1
-                category_index += 1
-                if category_index == len(touched_categories):
-                    break
-                age = touched_categories[category_index].age_range[0]
-                break
+        ages_set = set(ages_in_age_range)
+        age_group_set = set(range(group.age_range[0], group.age_range[1]))
+        age_count += len(ages_set.intersection(age_group_set))
         category_percents[group] = age_count / total_ages
+        
     return category_percents
 
 def get_top_channels(recommendation: Recommendation) -> dict[str, Channel]:
@@ -191,6 +190,7 @@ def get_top_channels(recommendation: Recommendation) -> dict[str, Channel]:
                                             or Retired in touched_categories):
         channels_6.append(parse(6))
         top_channels['adult'] = channels_6
+    print('\nDone parsing...')
     return top_channels
 
 def cutoff_top_channels(category_percents: dict, top_channels: dict) -> list[Channel]:
@@ -223,7 +223,27 @@ def cutoff_top_channels(category_percents: dict, top_channels: dict) -> list[Cha
         channels_5 = top_channels['young'][0][0: round(len(top_channels['young'][0])*category_percents[Young])]
         displayed_channels.append(channels_5)
     if top_channels.get('adult') is not None:
-        channels_6 = top_channels['adult'][0][0: round(len(top_channels['adult'][0])*(category_percents[Adult]+category_percents[Retired]))]
+        channels_6 = top_channels['adult'][0][0: round(len(top_channels['adult'][0])*(category_percents[Adult]+category_percents.get(Retired, 0)))]
         displayed_channels.append(channels_6)
 
     return displayed_channels
+
+def count_budget(recommendation: Recommendation) -> int:
+    """Возвращает значение максимального бюджета,
+    который возможно выделить на рекламную кампанию.
+    """
+    category_percents = recommendation.category_percents
+    leads = recommendation.leads_number
+
+    total_budget = 0
+
+    for key, value in category_percents.items():
+        if key.name == 'Children':
+            total_budget += value * Children.income / Children.average_hold
+        elif key.name == 'Young':
+            total_budget += value * Young.income / Young.average_hold
+        elif key.name == 'Adult':
+            total_budget += value * Adult.income / Adult.average_hold
+        elif key.name == 'Retired':
+            total_budget += value * Retired.income / Retired.average_hold
+    return int(total_budget * leads)
