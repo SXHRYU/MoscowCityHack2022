@@ -21,30 +21,30 @@
 <body>
     <navbar id="navbar">
         <ul>
-            <li id="marketing">УРАЛСИБ МАРКЕТИНГ</li>
-            <li id="channels">ПОДБОР КАНАЛОВ</li>
-            <li id="statistics">СТАТИСТИКА</li>
+            <li id="marketing"><a href="/">УРАЛСИБ МАРКЕТИНГ</a></li>
+            <li id="channels"><a href="/">ПОДБОР КАНАЛОВ</a></li>
+            <li id="statistics"><a href="/">СТАТИСТИКА</a></li>
         </ul>
     </navbar>
     <div id="main-page">
         <table>
             <tr id="table-headers">
                 <td class="table-header" id="product">
-                    <form action="POST">
+                    <form action="" method="POST"> {% csrf_token %}
                         <div class="part-wrapper">
                             <div class="wrapper-contents" style="padding: 24px 0 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">
                                 продукт продвижения
                                 <div class="form-checkbox" style="display: inline;">
                                     <br>
-                                    <input type="checkbox" id="debit">
+                                    <input type="checkbox" name="card-debit" id="debit">
                                     <label for="debit">дебетовая карта</label>
                                 </div>
                                 <div class="form-checkbox" style="display: inline;">
-                                    <input type="checkbox" id="credit">
+                                    <input type="checkbox" name="card-credit" id="credit">
                                     <label for="credit">кредитная карта</label>
                                 </div>
                                 <div class="form-checkbox">
-                                    <input type="checkbox" id="business">
+                                    <input type="checkbox" name="card-business" id="business">
                                     <label for="business">бизнес карта</label>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                             <div class="wrapper-contents" style="padding: 24px 0 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">
                                 местоположение
                                 <br>
-                                <select id="cars">
+                                <select name="city">
                                     <!-- ЗАГЛУШКА -->
                                   <option value="volvo">Volvo</option>
                                   <option value="saab">Saab</option>
@@ -67,7 +67,7 @@
                             <div class="wrapper-contents" style="padding: 24px 114px 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">
                                 <p>
                                     <label for="amount">возрастная категория</label>
-                                    <input type="text" id="amount" readonly style="border:0; background-color: #FFFFFF; color:#1E86F5; font-weight:bold; font-size: 18px;">
+                                    <input type="text" name="age-range" id="amount" readonly style="border:0; background-color: #FFFFFF; color:#1E86F5; font-weight:bold; font-size: 18px;">
                                 </p>
                                 <div id="slider-range"></div>
                             </div>
@@ -77,15 +77,15 @@
                                 гендер
                                 <div class="form-checkbox" style="display: inline;">
                                     <br>
-                                    <input type="checkbox" class="checkbox-round" id="gender-any">
+                                    <input type="checkbox" name="gender-any" class="checkbox-round" id="gender-any">
                                     <label for="gender-any">любой</label>
                                 </div>
                                 <div class="form-checkbox" style="display: inline;">
-                                    <input type="checkbox" class="checkbox-round" id="gender-male">
+                                    <input type="checkbox" name="gender-male" class="checkbox-round" id="gender-male">
                                     <label for="gender-male">мужской</label>
                                 </div>
                                 <div class="form-checkbox" style="display: inline;">
-                                    <input type="checkbox" class="checkbox-round" id="gender-female">
+                                    <input type="checkbox" name="gender-female" class="checkbox-round" id="gender-female">
                                     <label for="gender-female">женский</label>
                                 </div>
                             </div>
@@ -94,7 +94,7 @@
                             <div class="wrapper-contents" style="padding: 24px 114px 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">        
                                 необходимое кол-во лидов
                                 <br>
-                                <input type="number" id="number-input">
+                                <input type="number" name="number-leads" id="number-input">
                             </div>
                         </div>
                         <input type="submit" id="submit" value="ПОДОБРАТЬ">

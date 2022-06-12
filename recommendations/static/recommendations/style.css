@@ -4,6 +4,23 @@ body {
     font-family: 'Manrope', sans-serif;
 }
 
+a {
+    text-decoration: none;
+}
+
+#marketing a:visited {
+    color: #1E86F5;
+}
+
+#channels a:visited {
+    color: black;
+}
+
+#statistics a:visited {
+    color: #818181;
+}
+
+
 #navbar ul {
     list-style-type: none;
     padding-left: 0;
@@ -142,6 +159,7 @@ tr#table-headers {
     font-size: 16px;
     line-height: 22px;
     width: 129px;
+    border-color: #1E86F5;;
 }
 
 #channels-p-wrapper {

@@ -1,6 +1,6 @@
 import csv
-from person_info import *
 from dataclasses import dataclass
+from .person_info import *
 
 
 @dataclass
@@ -11,17 +11,21 @@ class Channel:
     telemetr_url: str
     url: str
 
-# class TopChannel(BaseChannel):
-#     def __init__(self):
-#         self.name = self._name
-#         # self.readers_count = self._readers_count
-#         # self.weekly_growth = self._weekly_growth
-#         # self.telemetr_url = self._telemetr_url
-#         # self.url = self._url
+class Recommendation:
+    def __init__(self, 
+                 product_name: str,
+                 city: str,
+                 age_range: tuple[int, int],
+                 gender: str,
+                 leads_number: str):
+        self.product_name = product_name
+        self.city = city
+        self.age_range = self.tuplise_age_range(age_range)
+        self.gender = gender
+        self.leads_number = leads_number
 
-#     @property
-#     def _name(self):
-#         ...
+    def tuplise_age_range(self, age_range):
+        return tuple(map(int, [i for i in age_range.split(' ') if i.isdigit()]))
 
 
 def get_top_channels(path_to_csv):

@@ -20,7 +20,14 @@
 import csv
 import requests
 from bs4 import BeautifulSoup
-from parser_urls import *
+from .parser_urls import (
+    url_men,
+    url_women,
+    url_business,
+    url_children,
+    url_young,
+    url_adult
+    )
 
 
 # Создаем массив url и названий конечного файла для каждой категории
@@ -43,17 +50,6 @@ filename_ar = [
 
 # Определяем параметры для доступа к сайту
 HEADERS = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Safari/537.36', 'accept' : '*/*'}
-
-# Функция для выбора категории
-def category_num():
-    num = int(input('Input number to choose category:' 
-                  + '1 - men, 2 - women, 3 - buisness, 4 - kids,'
-                  + '5 - youth, 6 - adult:\n'))
-    if num < 1 or num > 6:
-        print('Error.  Number must be in range from 1 to 6')
-        return category_num()
-    else:
-        return num
     
 # Составляем URL запрос
 def get_html(url, params = None):
@@ -109,18 +105,14 @@ def save_file(items, path):
                              item['link']])
     
 # Основная функция 
-def parse():
-    num = category_num()
+def parse(num):
     URL = url_ar[num-1]
-    FILE = filename_ar[num-1]
     html = get_html(URL)
     channels_ar = []
     # Выполняем проверку подключения к сайту,
     # в случае неполадок сети или любых других проблем выводим Error.
     if html.status_code == 200:
         channels_ar.extend(get_content(html.text))
-        save_file(channels_ar , FILE)
-        print('Done successfully!')
+        return channels_ar
     else:
         print('Error')
-parse()

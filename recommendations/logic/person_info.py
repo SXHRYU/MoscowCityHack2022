@@ -8,8 +8,8 @@ class AgeGroup:
 
 Children = AgeGroup('Children', (1, 18))
 Young = AgeGroup('Young', (18, 35))
-Adult = AgeGroup('Adult', (35, 54))
-Retired = AgeGroup('Retired', (55, 150))
+Adult = AgeGroup('Adult', (35, 65))
+Retired = AgeGroup('Retired', (65, 70))
 age_groups = [Children, Young, Adult, Retired]
 
 class Person:
@@ -43,7 +43,6 @@ class Person:
         self.birth_date = birth_date
         self.name = name
         self.age = age
-        
         # возможно добавлять
         ...
 
@@ -55,8 +54,11 @@ class Person:
                 return age_group
 
 class PersonGroup:
-    def __init__(self) -> None:
+    def __init__(self, age_range, city, gender) -> None:
         self.group_list = []
+        self.age_range = age_range
+        self.city = city
+        self.gender = gender
     
     def add_person(self, person: Person) -> 'PersonGroup':
         self.group_list.append(person)
@@ -72,7 +74,11 @@ class PersonGroup:
         age_group = kwargs.get('age_group')
         city = kwargs.get('city')
         product_category_name = kwargs.get('product_category_name')
-        for client in eligible_clients(gender, age, city, product_category_name, age_group):
+        for client in eligible_clients(gender,
+                                       age,
+                                       city,
+                                       product_category_name,
+                                       age_group):
             self.group_list.append(client)
         return self
 
@@ -82,7 +88,7 @@ def eligible_clients(gender, age, city, product_category_name, age_group=None):
         age = None
     else:
         age_group = None
-    with open('C:/Users/user/Desktop/program_fun/2022/hackathon/hackathon/Условие/Данные по транзакционной активности клиентов.csv', newline='', encoding='utf-8') as csvfile:
+    with open('C:/Users/user/Desktop/hackathon/Условие/Данные по транзакционной активности клиентов.csv', newline='', encoding='utf-8') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         for row in reader:
             if (
