@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,
+        initial-scale=1.0">
+    <title>УСБ-реклама</title>
+    <link rel="stylesheet" href="{% static 'recommendations/style.css' %}">
+    <link href="{% static 'recommendations/jquery-ui-1.13.1.custom/jquery-ui.css' %}" rel="stylesheet">
+    <link href="{% static 'recommendations/jquery-ui-1.13.1.custom/jquery-ui.min.css' %}" rel="stylesheet">
+    <link href="{% static 'recommendations/jquery-ui-1.13.1.custom/jquery-ui.theme.css' %}" rel="stylesheet">
+    <link href="{% static 'recommendations/jquery-ui-1.13.1.custom/jquery-ui.theme.min.css' %}" rel="stylesheet">
+    <script src="{% static 'recommendations/script.js' %}"></script>
+    <script src="{% static 'recommendations/jquery-ui-1.13.1.custom/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'recommendations/jquery-ui-1.13.1.custom/jquery-ui.js' %}"></script>
+    <script src="{% static 'recommendations/slider.js'%}"></script>
+</head>
+
+<body>
+    <navbar id="navbar">
+        <ul>
+            <li id="marketing"><a href="/">УРАЛСИБ МАРКЕТИНГ</a>
+                <img src="{% static 'recommendations/pandas_logo.jpg' %}" id="pandas" alt="pandas-logo">
+            </li>
+            <li id="channels"><a href="/">ПОДБОР КАНАЛОВ</a></li>
+            <li id="statistics"><a href="/">СТАТИСТИКА</a></li>
+        </ul>
+    </navbar>
+    <div id="main-page">
+        <table>
+            <tr id="table-headers">
+                <td class="table-header" id="product">
+                    <form action="" method="POST"> {% csrf_token %}
+                        <div class="part-wrapper">
+                            <div class="wrapper-contents" style="padding: 24px 0 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">
+                                продукт продвижения
+                                <div class="form-checkbox" style="display: inline;">
+                                    <br>
+                                    <input type="checkbox" name="card-debit" id="debit">
+                                    <label for="debit">дебетовая карта</label>
+                                </div>
+                                <div class="form-checkbox" style="display: inline;">
+                                    <input type="checkbox" name="card-credit" id="credit">
+                                    <label for="credit">кредитная карта</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" name="card-business" id="business">
+                                    <label for="business">бизнес карта</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="part-wrapper">
+                            <div class="wrapper-contents" style="padding: 24px 0 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">
+                                местоположение
+                                <br>
+                                <select name="city">
+                                    {% for city in cities_list %}
+                                        <option value="{{ city }}">{{ city }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="part-wrapper">
+                            <div class="wrapper-contents" style="padding: 24px 114px 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">
+                                <p>
+                                    <label for="amount">возрастная категория</label>
+                                    <input type="text" name="age-range" id="amount" readonly style="border:0; background-color: #FFFFFF; color:#1E86F5; font-weight:bold; font-size: 18px;">
+                                </p>
+                                <div id="slider-range" style="margin-left: 15px;"></div>
+                            </div>
+                        </div>
+                        <div class="part-wrapper">
+                            <div class="wrapper-contents" style="padding: 24px 114px 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">
+                                гендер
+                                <div class="form-checkbox" style="display: inline;">
+                                    <br>
+                                    <input type="checkbox" name="gender-any" class="checkbox-round" id="gender-any">
+                                    <label for="gender-any">любой</label>
+                                </div>
+                                <div class="form-checkbox" style="display: inline;">
+                                    <input type="checkbox" name="gender-male" class="checkbox-round" id="gender-male">
+                                    <label for="gender-male">мужской</label>
+                                </div>
+                                <div class="form-checkbox" style="display: inline;">
+                                    <input type="checkbox" name="gender-female" class="checkbox-round" id="gender-female">
+                                    <label for="gender-female">женский</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="part-wrapper">
+                            <div class="wrapper-contents" style="padding: 24px 114px 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">        
+                                необходимое кол-во лидов
+                                <br>
+                                <input type="number" name="number-leads" id="number-input">
+                            </div>
+                        </div>
+                        <input type="submit" id="submit" value="ПОДОБРАТЬ">
+                    </form>
+                </td>
+
+                <td class="table-header" id="channels">
+                    <table id="channels-table">
+                        <tr>
+                            <td>
+                                <div class="part-wrapper">
+                                    <div class="wrapper-contents" style="padding: 24px 114px 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">        
+                                        рекомендуемые каналы
+                                        <div id="channels-p-wrapper">
+                                            <p style="display: inline;"> <img src="{% static 'recommendations/vk logo.png' %}" alt="black vk logo"> ВКонтакте</p>
+                                            <p style="display: inline;"> <img src="{% static 'recommendations/telegram logo.png' %}" alt="black telegram logo"> Телеграм</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="part-wrapper" id="scrollable">
+                                    <div class="wrapper-contents" style="padding: 24px 114px 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">
+                                        каналы / группы
+                                        <br>
+                                        <p style="font-size: 16px; display: inline; text-transform: none;">ВКонтакте</p>
+                                        <p style="font-size: 16px; color: #1E86F5; display: inline; text-transform: none">Телеграм</p>
+                                        <table>
+                                            <tr>
+                                                <th>название</th>
+                                                <th>подписчики</th>
+                                                <th>ссылка</th>
+                                            </tr>
+                                            {% for channel in recommended_channels %}
+                                                <tr>
+                                                    <td class="brief">{{ channel.title }}</td>
+                                                    <td class="brief">{{ channel.growth }}</td>
+                                                    <td class="brief">{{ channel.link }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="part-wrapper">
+                                    <div class="wrapper-contents" style="padding: 24px 114px 22px 24px; box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);">
+                                        максимальный бюджет компании
+                                        <br>
+                                        <b>₽{{ recommendation.budget }}</b>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

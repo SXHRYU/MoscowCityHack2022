@@ -1,0 +1,209 @@
+body {
+    margin-top: 31px;
+    margin-left: 50px;
+    font-family: 'Manrope', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+#marketing a:visited {
+    color: #1E86F5;
+}
+
+#channels a:visited {
+    color: black;
+}
+
+#statistics a:visited {
+    color: #818181;
+}
+
+
+#navbar ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#navbar ul li {
+    display: inline;
+}
+
+#marketing {
+    width: 210px;
+    padding: 15px 24px 14px 14px;
+    font-style: normal;
+    color: #1E86F5;
+    font-size: 20px;
+    line-height: 27px;
+    font-weight: 600;
+}
+
+#channels {
+    margin-left: 1098px;
+    font-style: normal;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding-right: 50px;
+}
+
+#statistics {
+    margin-left: 40px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 27px;
+    text-transform: uppercase;
+    color: #818181;
+}
+
+#main-page {
+    position: absolute;
+    width: 1890px;
+    height: auto;
+    left: 0px;
+    top: 85px;
+    background: #F6F7FB;
+}
+
+tr#table-headers {
+    text-align: left;
+}
+
+.table-header#product {
+    padding-left: 50px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 33px;
+    color: #000000;
+    vertical-align: top;
+}
+
+.table-header#channels {
+    padding-left: 572px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 33px;
+    color: #000000;
+    text-transform: lowercase;
+}
+
+.form-checkbox div {
+    width: 180px;
+    left: 50px;
+    top: 158px;
+    border-radius: 4px;
+    background: #D9D9D9;
+    margin-bottom: 5px;
+}
+
+.form-checkbox label {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+}
+
+#form-age {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 33px;
+}
+
+#form-age input {
+    margin: 0
+}
+
+#slider-range {
+    background-color: #BFBFBF;;
+}
+
+.part-wrapper {
+    background-color: white;
+    border-radius: 16px;
+    margin-top: 18px;
+}
+
+.checkbox-round {
+    width: 1.3em;
+    height: 1.3em;
+    /* background-color: white; */
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.checkbox-round:checked {
+    background-color: #1E86F5
+}
+
+#number-input {
+    border: 1px solid #000000;
+    border-radius: 8px;
+    height: 38px;
+}
+
+#submit {
+    margin-top: 20px;
+    background: #1E86F5;
+    border-radius: 10px;
+    color: white;
+    height: 42px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    width: 129px;
+    border-color: #1E86F5;;
+}
+
+#channels-p-wrapper {
+    margin-top: 22px;
+}
+
+#channels-p-wrapper p {
+    background: #D4DAE0;
+    margin-right: 16px;
+    border-radius: 4px;
+    text-transform: none;
+    padding: 6px 10px;
+    padding-left: 14px ;
+}
+
+img {
+    width: 20px;
+    vertical-align: middle;
+}
+
+#pandas {
+    width: 63px;
+}
+
+th {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #BFBFBF;
+
+}
+
+.brief {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+#channels-table #scrollable {
+    height: 500px;
+    overflow-y: auto;
+    box-shadow: -3px 3px 18px rgba(10, 50, 121, 0.17);
+}
