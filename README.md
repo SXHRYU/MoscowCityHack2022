@@ -1,6 +1,8 @@
 # Moscow City Hack 2022
 # Команда Pandas
 
+![Скриншот](images/screenshot.png)
+
 ## Установка
 
 1. Введите в командной строке `git clone https://github.com/SXHRYU/MoscowCityHack2022`;
